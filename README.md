@@ -1,8 +1,8 @@
 # Decompose and Realign: Tackling Condition Misalignment in Text-to-Image Diffusion Models
 
-[Luozhou Wang](https://yixunliang.github.io/)$^{{\*}}$ Guibao Shen$^{{\*}}$, [Wenhang Ge](https://g3956.github.io/wenhangge.github.io/), [Guangyong Chen](https://guangyongchen.github.io/), [Yijun Li](https://yijunmaverick.github.io/), [Yingcong Chen](https://www.yingcong.me)$^{\**}$
+[Luozhou Wang](https://wileewang.github.io/)$^{{\*}}$, [Guibao Shen]()$^{{\*}}$, [Wenhang Ge](https://g3956.github.io/wenhangge.github.io/), [Guangyong Chen](https://guangyongchen.github.io/), [Yijun Li](https://yijunmaverick.github.io/), [Yingcong Chen](https://www.yingcong.me)$^{\**}$
 
-$\color{red}{\*}$: Equal contribution.
+${\*}$: Equal contribution.
 \**: Corresponding author.
 
 [Paper PDF (Arxiv)](https://arxiv.org/abs/2306.14408) | [Project Page (Coming Soon)]() | [Gradio Demo](resources/Gradio_Demo.md)

@@ -114,7 +114,7 @@ Notes
 - **Model Loading**: The adapter modules for [grounding tokens](https://github.com/gligen/GLIGEN) are integrated into the `masterful/gligen-1-4-generation-text-box` model, which can be directly loaded.
 - **Parameter Setting**: The `dr_scheduled_sampling_beta` parameter controls the influence range of our method. A recommended setting is 0.5.
 
-After running the script we provide in [main.py](), you should obtain the same images as below
+After running the script we provide in [main.py](https://github.com/wileewang/Decompose-and-Realign/blob/main/main.py), you should obtain the same images as below
 <div align=center>
 <img src="resources/fig-teaser-more.png" width="97%"/>
 

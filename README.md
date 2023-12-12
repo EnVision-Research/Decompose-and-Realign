@@ -73,7 +73,7 @@ Notes:
 
 - **Image Conditions**: For keys such as `pose` and `depth`, we utilize [ControlNets](https://github.com/lllyasviel/ControlNet) which require a condition image. Here, `control_info` should be a path to the condition image. **Ensure all images are loaded as PIL.Image objects prior to their integration into the pipeline**.
 
-- **Bounding Box (bbox)**: Implements control via a bounding box, in coordination with [grounding tokens](https://github.com/gligen/GLIGEN). The `control_info` for `bbox` should be formatted as `[x,y,w,h]`, with each value ranging from 0 to 1, representing the coordinates and dimensions of the bounding box.
+- **Bounding Box (bbox)**: Implements control via a bounding box, in coordination with [GLIGEN](https://github.com/gligen/GLIGEN). The `control_info` for `bbox` should be formatted as `[x,y,w,h]`, with each value ranging from 0 to 1, representing the coordinates and dimensions of the bounding box.
 
 - **Configuration Weights (cfg)**: Each control signal is assigned a `cfg` value, acting as a weight in the final composition process.
 
@@ -111,15 +111,16 @@ output.images[0].save('output.png')
 
 Notes
 - **ControlNet Integration**: Load and organize the required ControlNets into a dictionary, then register them to the pipeline using `pipe.set_controlnet(controlnet_dict)`.
-- **Model Loading**: The adapter modules for [grounding tokens](https://github.com/gligen/GLIGEN) are integrated into the `masterful/gligen-1-4-generation-text-box` model, which can be directly loaded.
+- **Model Loading**: The adapter modules for [GLIGEN](https://github.com/gligen/GLIGEN) are integrated into the `masterful/gligen-1-4-generation-text-box` model, which can be directly loaded.
 - **Parameter Setting**: The `dr_scheduled_sampling_beta` parameter controls the influence range of our method. A recommended setting is 0.5.
 
-After running the script we provide in [main.py](https://github.com/wileewang/Decompose-and-Realign/blob/main/main.py), you should obtain the same images as below
-<div align=center>
-<img src="resources/fig-teaser-more.png" width="97%"/>
+Or you can simply run the script available in [main.py](https://github.com/wileewang/Decompose-and-Realign/blob/main/main.py), and you can expect to reproduce the images shown below:
 
-Uncurated results of teaser sample via our method.
+<div align="center">
+    <img src="resources/fig-teaser-more.png" width="97%" />
+    <p>Example outputs generated using our method, presented without any curation.</p>
 </div>
+
 
 ## 🚧 Todo
 

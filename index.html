@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <!-- Meta tags for social media banners, these should be filled in appropriatly as they are your "business card" -->
+  <!-- Replace the content tag with appropriate information -->
+  <meta name="description" content="DESCRIPTION META TAG">
+  <meta property="og:title" content="SOCIAL MEDIA TITLE TAG"/>
+  <meta property="og:description" content="SOCIAL MEDIA DESCRIPTION TAG TAG"/>
+  <meta property="og:url" content="URL OF THE WEBSITE"/>
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X630-->
+  <meta property="og:image" content="static/image/your_banner_image.png" />
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+
+
+  <meta name="twitter:title" content="TWITTER BANNER TITLE META TAG">
+  <meta name="twitter:description" content="TWITTER BANNER DESCRIPTION META TAG">
+  <!-- Path to banner image, should be in the path listed below. Optimal dimenssions are 1200X600-->
+  <meta name="twitter:image" content="static/images/your_twitter_banner_image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <!-- Keywords for your paper to be indexed by-->
+  <meta name="keywords" content="KEYWORDS SHOULD BE PLACED HERE">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+  <title>Decompose and Realign</title>
+  <link rel="icon" type="image/x-icon" href="static/images/icon.png">
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+  rel="stylesheet">
+
+  <link rel="stylesheet" href="static/css/bulma.min.css">
+  <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="static/css/fontawesome.all.min.css">
+  <link rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="stylesheet" href="static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://documentcloud.adobe.com/view-sdk/main.js"></script>
+  <script defer src="static/js/fontawesome.all.min.js"></script>
+  <script src="static/js/bulma-carousel.min.js"></script>
+  <script src="static/js/bulma-slider.min.js"></script>
+  <script src="static/js/index.js"></script>
+</head>
+<body>
+
+
+  <section class="hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">
+              Decompose and Realign:<br>
+              Tackling Condition Misalignment in<br> 
+              Text-to-Image Diffusion Models
+          </h1>          
+            <div class="is-size-5 publication-authors">
+              <!-- Paper authors -->
+              <span class="author-block">
+                <a href="FIRST AUTHOR PERSONAL LINK" target="_blank">Luozhou Wang</a><sup>1,*</sup>,</span>
+                <span class="author-block">
+                  <a href="SECOND AUTHOR PERSONAL LINK" target="_blank">Guibao Shen</a><sup>1,*</sup>,</span>
+                  <span class="author-block">
+                    <a href="https://g3956.github.io/wenhangge.github.io/" target="_blank">Wenhang Ge</a><sup>1</sup>,</span>
+                    <span class="author-block">
+                      <a href="https://guangyongchen.github.io/" target="_blank">Guangyong Chen</a><sup>4,5</sup>,</span>
+                      <span class="author-block">
+                        <a href="https://yijunmaverick.github.io/" target="_blank">Yijun Li</a><sup>3</sup>,</span>
+                        <span class="author-block">
+                        <a href="https://www.yingcong.me/" target="_blank">Ying-Cong Chen</a><sup>1,2,&dagger;</sup>
+                  </span>
+                  </div>
+
+                  <div class="is-size-5 publication-authors">
+                    <span class="author-block">
+                      <sup>1</sup>HKUST(GZ), <sup>2</sup>HKUST, <sup>3</sup>Adobe Research, <sup>4</sup>Zhejiang Lab, <sup>5</sup>Zhejiang University
+                  </span>                  
+                    <span class="eql-cntrb"><small><br><sup>*</sup>Indicates Equal Contribution.<sup>&dagger;</sup>Indicates corresponding author.</small></span>
+                  </div>
+
+                  <div class="column has-text-centered">
+                    <div class="publication-links">
+                         <!-- Arxiv PDF link -->
+                      <span class="link-block">
+                        <a href="https://arxiv.org/abs/2306.14408" target="_blank"
+                        class="external-link button is-normal is-rounded is-dark">
+                        <span class="icon">
+                          <i class="fas fa-file-pdf"></i>
+                        </span>
+                        <span>Paper</span>
+                      </a>
+                    </span>
+
+
+                  <!-- Github link -->
+                  <span class="link-block">
+                    <a href="https://github.com/YOUR REPO HERE" target="_blank"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Teaser Image-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <img src="static/images/teaser_1.png" alt="MY ALT TEXT"/>
+      <h2 class="subtitle has-text-left">
+        Illustration of Decompose and Realign showcasing the ability to handle the misalignment between conditions for controllable generation tasks. For example, with several control conditions (e.g., depth, pose, bounding box) specifying the layout structure and the text condition indicating <strong>extra</strong> guidance (e.g., new object, new correspondence of spatial relationship), our method is able to generate high-quality plausible outputs that satisfy all given conditions without training.
+      </h2>
+    </div>
+  </div>
+</section>
+<!-- End Teaser Image -->
+
+
+
+<!-- Teaser video-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <video poster="" id="tree" autoplay controls muted loop height="100%">
+        <!-- Your video here -->
+        <source src="static/videos/dr_video.mp4"
+        type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+<!-- End teaser video -->
+
+<!-- Paper abstract -->
+<section class="section hero is-light">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Text-to-image diffusion models have advanced towards more controllable generation via supporting various additional conditions (e.g., depth map, bounding box) beyond text. However, these models are learned based on the premise of perfect alignment between the text and extra conditions. If this alignment is not satisfied, the final output could be either dominated by one condition, or ambiguity may arise, failing to meet user expectations. To address this issue, we present a training-free approach called ``Decompose and Realign'' to further improve the controllability of existing models when provided with partially aligned conditions. The "Decompose" phase separates conditions based on pair relationships, computing the result individually for each pair. This ensures that each pair no longer has conflicting conditions. The "Realign" phase aligns these independently calculated results via a cross-attention mechanism to avoid new conflicts when combining them back. Both qualitative and quantitative results demonstrate the effectiveness of our approach in handling unaligned conditions, which performs favorably against recent methods and more importantly adds flexibility to the controllable image generation process.
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- End paper abstract -->
+
+
+
+<!-- Pipeline Image-->
+<section class="hero is-light">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="subtitle has-text-centered" style="font-size: 32px; font-weight: bold;">
+        Framework of Decompose and Realign
+      </h2>
+      <img src="static/images/fig-pipeline.png" alt="MY ALT TEXT"/>
+    </div>
+  </div>
+</section>
+<!-- End Pipeline Image -->
+
+
+<!-- Challenge Image-->
+<section class="hero teaser">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="subtitle has-text-centered">
+        <strong style="font-size: 28px;">Challenges in Multi-Condition Image Synthesis.</strong><br> 
+      </h2>
+      <h2 class="subtitle has-text-left">
+        Left: the "<strong>dominance</strong>" effect exists across various methods, where one object (e.g., car) overshadows the generation, omitting the other (e.g., dog). Right: The "<strong>ambiguity</strong>" issue, where it's unclear which object from the text matches the intended depth condition.
+      </h2>
+      <img src="static/images/challenge.png" alt="MY ALT TEXT"/>
+    </div>
+  </div>
+</section>
+
+
+
+
+<!-- Dominance Image-->
+<section class="hero is-light">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="subtitle has-text-centered">
+        <strong style="font-size: 28px;">Comparisons of “Dominance” Challenge.</strong><br> 
+      </h2>
+      <h2 class="subtitle has-text-left">
+        D&R ensures that objects in the text, not linked to additional conditions, are still accurately generated (e.g., "tiger" in the first example).
+      </h2>
+      <img src="static/images/dominance.png" alt="MY ALT TEXT"/>
+    </div>
+  </div>
+</section>
+<!-- End Dominance Image -->
+
+
+<!-- Ambiguity Image-->
+<section class="hero is-light">
+  <div class="container is-max-desktop">
+    <div class="hero-body">
+      <h2 class="subtitle has-text-centered">
+        <strong style="font-size: 28px;">Comparisons of "Ambiguity" Challenge.</strong><br> 
+      </h2>
+      <h2 class="subtitle has-text-left">
+        D&R accurately maps specific words in the text (e.g., "orange cat" in the last row) to the corresponding additional conditions ("normal map")
+      </h2>
+      <img src="static/images/ambiguity.png" alt="MY ALT TEXT"/>
+    </div>
+  </div>
+</section>
+<!-- End Ambiguity Image -->
+
+<!-- Image carousel -->
+<section class="hero teaser">
+  <div class="hero-body">
+    <div class="container">
+
+      <h2 class="subtitle has-text-centered">
+        <strong style="font-size: 28px;">Complex Application Ccenarios.</strong><br> 
+      </h2>
+      <h2 class="subtitle has-text-left">
+        Demonstrating scalability, D&R adeptly manages complex scenes, seamlessly integrating with a variety of controller mechanisms, including both ControlNet and GLIGEN.
+      </h2>
+      <div id="results-carousel" class="carousel results-carousel">
+       <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/application_1.png" alt="MY ALT TEXT"/>
+        <h2 class="subtitle has-text-centered">
+          Complex Application Ccenario 1.
+        </h2>
+      </div>
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/application_2.png" alt="MY ALT TEXT"/>
+        <h2 class="subtitle has-text-centered">
+          Complex Application Ccenario 2.
+        </h2>
+      </div>
+      <div class="item">
+        <!-- Your image here -->
+        <img src="static/images/application_3.png" alt="MY ALT TEXT"/>
+        <h2 class="subtitle has-text-centered">
+          Complex Application Ccenario 3.
+       </h2>
+     </div>
+     <div class="item">
+      <!-- Your image here -->
+      <img src="static/images/application_4.png" alt="MY ALT TEXT"/>
+      <h2 class="subtitle has-text-centered">
+        Complex Application Ccenario 4.
+      </h2>
+    </div>
+  </div>
+</div>
+</div>
+</section>
+
+
+
+
+
+
+
+<!--BibTex citation -->
+  <section class="section" id="BibTeX">
+    <div class="container is-max-desktop content">
+      <h2 class="title">BibTeX</h2>
+      <pre><code>BibTex Code Here</code></pre>
+    </div>
+</section>
+<!--End BibTex citation -->
+
+
+  <footer class="footer">
+  <div class="container">
+    <div class="columns is-centered">
+      <div class="column is-8">
+        <div class="content">
+
+          <p>
+            This page was built using the <a href="https://github.com/eliahuhorwitz/Academic-project-page-template" target="_blank">Academic Project Page Template</a> which was adopted from the <a href="https://nerfies.github.io" target="_blank">Nerfies</a> project page.
+            You are free to borrow the of this website, we just ask that you link back to this page in the footer. <br> This website is licensed under a <a rel="license"  href="http://creativecommons.org/licenses/by-sa/4.0/" target="_blank">Creative
+            Commons Attribution-ShareAlike 4.0 International License</a>.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- Statcounter tracking code -->
+  
+<!-- You can add a tracker to track page visits by creating an account at statcounter.com -->
+
+    <!-- End of Statcounter Code -->
+
+  </body>
+  </html>

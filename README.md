@@ -10,15 +10,16 @@ ${\*}$: Equal contribution.
 ---
 
 <div align=center>
-<img src="resources/fig-teaser.png" width="47.5%"/><img src="resources/fig-exp-multiple_conditions-1.png" width="47.5%"/>  
+<img src="resources/fig-teaser.png" width="97%"/>
 
-Note: we compress these motion pictures for faster previewing.
+llustration of our proposed Decompose and Realign showcasing the ability to handle the misalignment between conditions
+for controllable generation task
 </div>
 
 <div align=center>
-<img src="resources/teaser.jpg" width="95%"/>  
+<img src="resources/fig-exp-multiple_conditions-1.png" width="97%"/>   
   
-Examples of text-to-3D content creations with our framework, the *LucidDreamer*, within **~35mins** on A100.
+Examples of complex scenes, seamlessly integrating with a variety of controller mechanism.
 </div>
 
 

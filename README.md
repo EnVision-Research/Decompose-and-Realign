@@ -10,7 +10,7 @@ ${\*}$: Equal contribution.
 ---
 
 <div align=center>
-<img src="resources/gif/demo-1.gif" width="47.5%"/><img src="resources/gif/demo-2.gif" width="47.5%"/>  
+<img src="resources/fig-teaser.png" width="47.5%"/><img src="resources/fig-exp-multiple_conditions-1.png" width="47.5%"/>  
 
 Note: we compress these motion pictures for faster previewing.
 </div>

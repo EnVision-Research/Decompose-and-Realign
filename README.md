@@ -32,67 +32,95 @@ llustration of our proposed Decompose and Realign showcasing the ability to hand
 for controllable generation task
 </div>
 
-
-## 🔧 Quick Start
-### Environment
+## 🔧 Quick-Start
+### Installation
 Our code relies also on Hugging Face's [diffusers](https://github.com/huggingface/diffusers) library. 
 
 ```
-pip install diffusers, transformers, pytorch
+pip install diffusers
 ```
 
-
-### Prepare input conditions
-
-
-
-To generate an image, you need to organize the input conditions as a json
-```
-inputs = {
-        "text": 
-            {
-                "caption": "A panda hails a taxi on the street with a red suitcase at its feet", 
-                "index": [10,11,12], 
-                "control_info": 10,
-                "cfg":7,
-            }, 
-        "pose": 
-            {
-                "index": [1, 2], 
-                "control_info": "resources/pose.png",
-                "cfg":5
-            }, 
-        "bbox": 
-            {
-                "index": [4, 5], 
-                "control_info": [[0.1, 0.5, 0.6, 0.8]],
-                "cfg":4
-            }, 
-        "depth": 
-            {
-                "index": [6, 7, 8], 
-                "control_info": "resources/depth.png",
-                "cfg":2
-            }
-        }
+### Prepare your inputs
+To generate an image using our model, structure the input conditions as a JSON object:
+```json
+{
+    "text": {
+        "caption": "A panda hails a taxi on the street with a red suitcase at its feet", 
+        "index": [10,11,12], 
+        "control_info": 10,
+        "cfg":7
+    }, 
+    "pose": {
+        "index": [1, 2], 
+        "control_info": "resources/pose.png",
+        "cfg":5
+    }, 
+    "bbox": {
+        "index": [4, 5], 
+        "control_info": [[0.1, 0.5, 0.6, 0.8]],
+        "cfg":4
+    }, 
+    "depth": {
+        "index": [6, 7, 8], 
+        "control_info": "resources/depth.png",
+        "cfg":2
+    }
+}
 ```
 Notes:
 
-- `text` is always required during generation as a unified signal, and the `index` indicate which text tokens you want to enhance with our **Confidence Focusing Operation** and **Concentration Refinement Operation** which is introduced in the Sec 3.3 of our paper and implemented via [code]() 
-- You may run multiple seeds by passing a list of seeds. For example, `--seeds [0,1,2,3]`.
-- If you do not provide a list of which token indices to alter using `--token_indices`, we will split the text according to the Stable Diffusion's tokenizer and display the index of each token. You will then be able to input which indices you wish to alter.
-- If you wish to run the standard Stable Diffusion model without Attend-and-Excite, you can do so by passing `--run_standard_sd True`.
-- All parameters are defined in `config.py` and are set to their defaults according to the official paper.
+- **Text**: Mandatory for generation. `index` specifies text tokens to enhance using our **Confidence Focusing Operation** and **Concentration Refinement Operation**, detailed in Sec 3.3 of our paper ([see code](https://github.com/wileewang/Decompose-and-Realign/blob/main/controller.py#L109-L110)). `control_info` acts as a multiplier for the attention values of these tokens, amplifying their visual prominence.
 
-All generated images will be saved to the path `"{config.output_path}/{prompt}"`. We will also save a grid of all images (in the case of multiple seeds) under `config.output_path`.
+- **Image Conditions**: For keys such as `pose` and `depth`, we utilize [ControlNets](https://github.com/lllyasviel/ControlNet) which require a condition image. Here, `control_info` should be a path to the condition image. **Ensure all images are loaded as PIL.Image objects prior to their integration into the pipeline**.
+
+- **Bounding Box (bbox)**: Implements control via a bounding box, in coordination with [grounding tokens](https://github.com/gligen/GLIGEN). The `control_info` for `bbox` should be formatted as `[x,y,w,h]`, with each value ranging from 0 to 1, representing the coordinates and dimensions of the bounding box.
+
+- **Configuration Weights (cfg)**: Each control signal is assigned a `cfg` value, acting as a weight in the final composition process.
+
+### Run
+You can use our pipeline similarly to the [StableDiffusionPipeline](https://huggingface.co/docs/diffusers/api/pipelines/stable_diffusion/text2img#diffusers.StableDiffusionPipeline.enable_attention_slicing.example). Below is an example usage:
+
+```python
+import torch
+from PIL import Image
+from diffusers import ControlNetModel
+from pipeline_decompose_and_realign import *
+
+device = torch.device("cuda")
+
+# Load required ControlNet models
+controlnet_dict = {
+    'depth': ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-depth"),
+    'pose': ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-openpose"),
+}
+
+# Initialize and configure the pipeline
+pipe = DecomposeAndRealignPipeline.from_pretrained("masterful/gligen-1-4-generation-text-box").to(device)
+pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(pipe.scheduler.config)
+pipe.set_controlnet(controlnet_dict)
+
+# Generate the output
+output = pipe(
+    inputs=data, # json object.
+    negative_prompt='unnatural colors, bad proportions, worst quality',
+    dr_scheduled_sampling_beta=0.5,
+    generator=torch.Generator(device="cuda").manual_seed(20),
+)
+output.images[0].save('output.png')
+```
+
+Notes
+- **ControlNet Integration**: Load and organize the required ControlNets into a dictionary, then register them to the pipeline using `pipe.set_controlnet(controlnet_dict)`.
+- **Model Loading**: The adapter modules for [grounding tokens](https://github.com/gligen/GLIGEN) are integrated into the `masterful/gligen-1-4-generation-text-box` model, which can be directly loaded.
+- **Parameter Setting**: The `dr_scheduled_sampling_beta` parameter controls the influence range of our method. A recommended setting is 0.5.
 
 
 <div align=center>
-<img src="resources/fig-exp-multiple_conditions-1.png" width="97%"/>   
-  
-Examples of complex scenes, seamlessly integrating with a variety of controller mechanism.
-</div>
+<img src="resources/fig-teaser.png" width="97%"/>
 
+llustration of our proposed Decompose and Realign showcasing the ability to handle the misalignment between conditions
+for controllable generation task
+</div>
 
 ## 🚧 Todo
 

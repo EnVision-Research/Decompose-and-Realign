@@ -1,6 +1,7 @@
 import torch
 import math
 from diffusers.models.attention_processor import Attention
+import torch.nn.functional as F
 import copy
 
 
@@ -87,18 +88,7 @@ class DRAttnController:
         for _, value in self.attn_store_dicts.items():
             value['attn_store'] = self.get_empty_store()
 
-    def process_text_attention(self, attn, start_index, place_in_unet, is_cross):
-        # whether apply up-only for attention of other control type, exclusive for controlnets.
-        if self.cur_att_layer  == start_index:
-            for key, value in self.attn_store_dicts.items():
-                if key != 'bbox' and key != 'text':
-                    value['attn_store']['down_cross'] = [
-                        value['attn_store']['up_cross'][4], 
-                        value['attn_store']['up_cross'][3], 
-                        value['attn_store']['up_cross'][1], 
-                        value['attn_store']['up_cross'][0]
-                    ]
-
+    def realign_attention(self, attn, place_in_unet, is_cross):
         # apply the realign
         key = f"{place_in_unet}_{'cross' if is_cross else 'self'}"
         if attn.shape[1] <= 32 ** 2:
@@ -107,21 +97,24 @@ class DRAttnController:
                 for element_key, element_value in self.attn_store_dicts.items():
                     if element_key!='text':
                         attn[h // 2:, :, element_value['index']] = element_value['attn_store'][key].pop(0)[:,:,1:-1]
-
-                for element_key, element_value in self.attn_store_dicts.items():
-                    if element_key == 'text':
-                        if len(element_value['index'])!=0:
-                            attn[h // 2:, :, element_value['index']] = self.max_op(attn[h // 2:, :, element_value['index']])
-                            attn[h // 2:, :, element_value['index']] = self.blur_op(attn[h // 2:, :, element_value['index']])
-                            attn[h // 2:, :, element_value['index']] *= element_value['control_info']
+    
+    def process_attention(self, attn, place_in_unet, is_cross):
+        # apply enhancement
+        key = f"{place_in_unet}_{'cross' if is_cross else 'self'}"
+        if attn.shape[1] <= 32 ** 2:
+            h = attn.shape[0]
+            if is_cross:
+                text_attn_dict = self.attn_store_dicts['text']
+                if len(text_attn_dict['index'])!=0:
+                    attn[h // 2:, :, text_attn_dict['index']] = self.max_op(attn[h // 2:, :, text_attn_dict['index']])
+                    attn[h // 2:, :, text_attn_dict['index']] = self.blur_op(attn[h // 2:, :, text_attn_dict['index']])
+                    attn[h // 2:, :, text_attn_dict['index']] *= text_attn_dict['control_info']
                 
                 # renormalize eot
                 if self.renormalize:
                     sum_except_eot = torch.sum(attn[h // 2:, :, 0:-1], dim=2, keepdim=True)
                     attn[h//2:, :,  -1:] = 1 - sum_except_eot 
                     attn[h//2:, :,  :] = attn[h//2:,:,:].clamp(0,1)
-            else:
-                pass
 
     def store_attention(self, attn, attn_key, place_in_unet, is_cross):
         key = f"{place_in_unet}_{'cross' if is_cross else 'self'}"
@@ -131,26 +124,37 @@ class DRAttnController:
 
     def __call__(self, attn, is_cross: bool, place_in_unet: str):
         
-        dr_activated = True if self.cur_step < self.inf_step else False
+        apply_realign = True if self.cur_step < self.inf_step else False
 
-        if dr_activated:
-            for order, attn_key in enumerate(self.attn_store_dicts):
-                # note to keep the order the same
-                start_index = order * self.num_att_layers
-                end_index = start_index + self.num_att_layers
-                # when computing the attention of text and ensure the text is always the last one to compute
-                if start_index <= self.cur_att_layer < end_index and attn_key == 'text':
-                    if attn_key =='text':
-                        self.process_text_attention(attn, start_index, place_in_unet, is_cross)
-                    else:
-                        self.store_attention(attn, attn_key, place_in_unet, is_cross)
+        for order, attn_key in enumerate(self.attn_store_dicts):
+            # note to keep the order the same
+            start_index = order * self.num_att_layers
+            end_index = start_index + self.num_att_layers
+            # when computing the attention of text and ensure the text is always the last one to compute
+            if start_index <= self.cur_att_layer < end_index:
+                if attn_key =='text':
+                    # enhance the control from controlnets
+                    if self.cur_att_layer  == start_index:
+                        for key, value in self.attn_store_dicts.items():
+                            if key != 'bbox' and key != 'text':
+                                value['attn_store']['down_cross'] = [
+                                    value['attn_store']['up_cross'][4], 
+                                    value['attn_store']['up_cross'][3], 
+                                    value['attn_store']['up_cross'][1], 
+                                    value['attn_store']['up_cross'][0]
+                                ]
+                    
+                    if apply_realign:
+                        self.realign_attention(attn, place_in_unet, is_cross)
+                    self.process_attention(attn, place_in_unet, is_cross)
+                else:
+                    self.store_attention(attn, attn_key, place_in_unet, is_cross)
 
-            self.cur_att_layer += 1
-
-            if self.cur_att_layer == self.num_att_layers + self.num_att_layers * (len(self.attn_store_dicts) - 1):
-                self.cur_att_layer = 0
-                self.cur_step += 1
-                self.between_steps()
+        self.cur_att_layer += 1
+        if self.cur_att_layer == self.num_att_layers + self.num_att_layers * (len(self.attn_store_dicts) - 1):
+            self.cur_att_layer = 0
+            self.cur_step += 1
+            self.between_steps()
 
         return attn
 
@@ -163,7 +167,7 @@ class DRAttnController:
     def __init__(
             self, 
             inputs={},
-            renormalize=False, 
+            renormalize=True, 
             inf_step=50,
         ):
         self.inf_step = inf_step

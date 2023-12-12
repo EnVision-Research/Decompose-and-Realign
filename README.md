@@ -32,7 +32,7 @@ llustration of our proposed Decompose and Realign showcasing the ability to hand
 for controllable generation task
 </div>
 
-## 🔧 Quick-Start
+## 🔧 Quick Start
 ### Installation
 Our code relies also on Hugging Face's [diffusers](https://github.com/huggingface/diffusers) library. 
 

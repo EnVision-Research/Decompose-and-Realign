@@ -1,4 +1,4 @@
-# Decompose and Realign: Tackling Condition Misalignment in Text-to-Image Diffusion Models
+# Text-Anchored Score Composition: Tackling Condition Misalignment in Text-to-Image Diffusion Models (ECCV2024)
 
 [Luozhou Wang](https://wileewang.github.io/)$^{{\*}}$, [Guibao Shen]()$^{{\*}}$, [Wenhang Ge](https://g3956.github.io/wenhangge.github.io/), [Guangyong Chen](https://guangyongchen.github.io/), [Yijun Li](https://yijunmaverick.github.io/), [Yingcong Chen](https://www.yingcong.me)$^{\**}$
 
@@ -21,14 +21,13 @@ Text-to-image diffusion models have advanced towards more controllable generatio
 
 <details><summary>CLICK for the full abstract</summary>
 
-> Text-to-image diffusion models have advanced towards more controllable generation via supporting various additional conditions (e.g., depth map, bounding box) beyond text. However, these models are learned based on the premise of perfect alignment between the text and extra conditions. If this alignment is not satisfied, the final output could be either dominated by one condition, or ambiguity may arise, failing to meet user expectations. To address this issue, we present a training-free approach called "Decompose and Realign" to further improve the controllability of existing models when provided with partially aligned conditions. The "Decompose" phase separates conditions based on pair relationships, computing the result individually for each pair. This ensures that each pair no longer has conflicting conditions. The "Realign" phase aligns these independently calculated results via a cross-attention mechanism to avoid new conflicts when combining them back. Both qualitative and quantitative results demonstrate the effectiveness of our approach in handling unaligned conditions, which performs favorably against recent methods and more importantly adds flexibility to the controllable image generation process.
-
+> Text-to-image diffusion models have advanced towards more controllable generation via supporting various additional conditions (e.g., depth map, bounding box) beyond text. However, these models are learned based on the premise of perfect alignment between the text and extra conditions. If this alignment is not satisfied, the final output could be either dominated by one condition, or ambiguity may arise, failing to meet user expectations. To address this issue, we present a trainingfree approach called Text-Anchored Score Composition (TASC) to further improve the controllability of existing models when provided with partially aligned conditions. The TASC firstly separates conditions based on pair relationships, computing the result individually for each pair. This ensures that each pair no longer has conflicting conditions. Then we propose an attention realignment operation to realign these independently calculated results via a cross-attention mechanism to avoid new conflicts when combining them back. Both qualitative and quantitative results demonstrate the effectiveness of our approach in handling unaligned conditions, which performs favorably against recent methods and more importantly adds flexibility to the controllable image generation process.
 </details>
 
 <div align=center>
 <img src="resources/fig-teaser.png" width="97%"/>
 
-llustration of our proposed Decompose and Realign showcasing the ability to handle the misalignment between conditions
+llustration of our proposed TASC showcasing the ability to handle the misalignment between conditions
 for controllable generation task
 </div>
 
@@ -84,7 +83,7 @@ You can use our pipeline similarly to the [StableDiffusionPipeline](https://hugg
 import torch
 from PIL import Image
 from diffusers import ControlNetModel
-from pipeline_decompose_and_realign import *
+from pipeline_tasc import *
 
 device = torch.device("cuda")
 
@@ -95,7 +94,7 @@ controlnet_dict = {
 }
 
 # Initialize and configure the pipeline
-pipe = DecomposeAndRealignPipeline.from_pretrained("masterful/gligen-1-4-generation-text-box").to(device)
+pipe = TASCPipeline.from_pretrained("masterful/gligen-1-4-generation-text-box").to(device)
 pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(pipe.scheduler.config)
 pipe.set_controlnet(controlnet_dict)
 

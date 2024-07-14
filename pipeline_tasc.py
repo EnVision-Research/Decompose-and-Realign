@@ -28,7 +28,7 @@ sys.path.append("../../")
 
 logger = logging.get_logger(__name__)
 
-class DecomposeAndRealignPipeline(StableDiffusionPipeline):
+class TASCPipeline(StableDiffusionPipeline):
 
     model_cpu_offload_seq = "text_encoder->unet->vae"
     _optional_components = ["safety_checker", "feature_extractor"]
@@ -509,7 +509,7 @@ class DecomposeAndRealignPipeline(StableDiffusionPipeline):
         num_warmup_steps = len(timesteps) - num_inference_steps * self.scheduler.order
         num_dr_steps = int(dr_scheduled_sampling_beta * len(timesteps))
 
-        controller = DRAttnController(
+        controller = TASCAttnController(
             inputs=processed_inputs,
             inf_step=num_dr_steps
         )

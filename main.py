@@ -1,7 +1,7 @@
 import torch
 from PIL import Image
 from diffusers import ControlNetModel
-from pipeline_decompose_and_realign import *
+from pipeline_tasc import *
 
 data = {
         "text": 
@@ -43,7 +43,7 @@ controlnet_dict = {
     'pose': ControlNetModel.from_pretrained("lllyasviel/sd-controlnet-openpose"),
 }
 
-pipe = DecomposeAndRealignPipeline.from_pretrained("masterful/gligen-1-4-generation-text-box").to(device)
+pipe = TASCPipeline.from_pretrained("masterful/gligen-1-4-generation-text-box").to(device)
 pipe.scheduler = EulerAncestralDiscreteScheduler.from_config(pipe.scheduler.config)
 pipe.set_controlnet(controlnet_dict)
 

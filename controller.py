@@ -74,7 +74,7 @@ class GaussianBlurAttention:
 
         return attention
 
-class DRAttnController:
+class TASCAttnController:
 
     @staticmethod
     def get_empty_store():
